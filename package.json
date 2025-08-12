@@ -1,6 +1,6 @@
 {
   "name": "hapi-scalar",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Hapi plugin that serves API documentation using Scalar, with built-in support for hapi-swagger.",
   "type": "module",
   "main": "lib/index.js",
