@@ -1,12 +1,12 @@
 # hapi-scalar
 
-A Hapi plugin to serve [Scalar](https://github.com/scalar/scalar) API documentation UI for your Hapi server. It can be used standalone or alongside [hapi-swagger](https://github.com/glennjones/hapi-swagger) to provide a modern, customizable OpenAPI/Swagger documentation experience.
+A Hapi plugin that serves [Scalar](https://github.com/scalar/scalar) API documentation UI for your Hapi server. It provides a modern, interactive OpenAPI/Swagger documentation interface that can be used standalone or alongside [hapi-swagger](https://github.com/glennjones/hapi-swagger).
 
 ## Features
 
-- Serves Scalar UI at a configurable route (default: `/reference`)
-- Supports static or dynamic configuration for Scalar UI
-- Integrates with hapi-swagger to auto-detect and use your OpenAPI/Swagger JSON endpoint
+- Serves beautiful Scalar UI at a configurable route (default: `/reference`)
+- Auto-detects and integrates with hapi-swagger configurations
+- Supports both static and dynamic configuration
 - TypeScript support
 
 ## Installation
@@ -15,11 +15,9 @@ A Hapi plugin to serve [Scalar](https://github.com/scalar/scalar) API documentat
 npm install hapi-scalar
 ```
 
-> **Note:** You must also have `@hapi/hapi` installed. To use with hapi-swagger, install `hapi-swagger`, `@hapi/inert`, and `@hapi/vision` as well.
+## Quick Start
 
-## Usage
-
-### Basic Usage
+### Standalone Usage
 
 ```js
 import Hapi from '@hapi/hapi'
@@ -33,17 +31,21 @@ const server = Hapi.server({
 await server.register({
   plugin: hapiScalar,
   options: {
-    // Optional: see configuration below
+    scalarConfig: {
+      url: '/path/to/your/openapi.json', // Your OpenAPI spec URL
+    },
   },
 })
 
 await server.start()
-console.log('Server running on %s', server.info.uri)
+console.log('Documentation available at: http://localhost:3000/reference')
 ```
 
 Visit [http://localhost:3000/reference](http://localhost:3000/reference) to view the Scalar UI.
 
-### With hapi-swagger
+### With hapi-swagger (Recommended)
+
+When used with hapi-swagger, the plugin automatically detects your OpenAPI/Swagger configuration:
 
 ```js
 import Hapi from '@hapi/hapi'
@@ -52,64 +54,106 @@ import Vision from '@hapi/vision'
 import HapiSwagger from 'hapi-swagger'
 import hapiScalar from 'hapi-scalar'
 
+const server = Hapi.server({
+  port: 3000,
+  host: 'localhost',
+})
+
+// Configure hapi-swagger
 const swaggerOptions = {
   info: {
-    title: 'API Documentation',
+    title: 'My API Documentation',
     version: '1.0.0',
+    description: 'This is my awesome API',
   },
-  OAS: 'v3.0', // or omit for Swagger v2
+  OAS: 'v3.0', // Use OpenAPI 3.0 (recommended)
 }
 
+// Register dependencies and hapi-swagger
 await server.register([
   Inert,
   Vision,
   { plugin: HapiSwagger, options: swaggerOptions },
 ])
 
+// Register hapi-scalar - it will automatically use the OpenAPI spec from hapi-swagger
 await server.register({
   plugin: hapiScalar,
   options: {
-    // Scalar will automatically use the correct OpenAPI/Swagger endpoint
+    // Optional: customize the documentation route
+    routePrefix: '/docs',
+    // Optional: customize Scalar UI
+    scalarConfig: {
+      hideClientButton: false,
+      theme: 'purple',
+    },
   },
 })
+
+await server.start()
+console.log('API Documentation available at: http://localhost:3000/docs')
 ```
 
-## Options
+> Note: When hapi-swagger is registered, hapi-scalar automatically uses `/openapi.json` if `OAS` is `'v3.0'`, otherwise `/swagger.json`. You don’t need to set `scalarConfig.url` manually.
 
-You can pass options when registering the plugin:
+## Configuration Options
+
+### Plugin Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `routePrefix` | `string` | `'/reference'` | The path where the Scalar documentation UI will be served. |
+| `scalarConfig` | `object \| function(request) => object \| Promise<object>` | `{}` | Configuration passed to the Scalar UI. Can be a static object or a dynamic function that receives the Hapi request. |
+
+**Example:**
 
 ```js
 await server.register({
   plugin: hapiScalar,
   options: {
-    routePrefix: '/docs', // Change the route (default: '/reference')
-    scalarConfig: {       // Pass Scalar UI config (see below)
-      url: '/openapi.json',
-      hideClientButton: true,
-    },
+    routePrefix: '/docs',           // → http://localhost:3000/docs
+    scalarConfig: { /* ... */ },    // Scalar UI configuration
   },
 })
 ```
 
-### `routePrefix`
-- Type: `string` (default: `/reference`)
-- The path where Scalar UI will be served.
+The `scalarConfig` object supports all [Scalar configuration options](https://github.com/scalar/scalar/blob/main/documentation/configuration.md).
 
-### `scalarConfig`
-- Type: `object | function(request) => object | Promise<object>`
-- Configuration for Scalar UI. Can be a static object or a function that receives the Hapi request and returns (or resolves to) a config object.
-- See [Scalar configuration docs](https://github.com/scalar/scalar/blob/main/documentation/configuration.md) for available options.
+### Dynamic Configuration
 
-#### Example: Dynamic config
+Use a function to provide dynamic configuration based on the request:
 
 ```js
 options: {
   scalarConfig: (request) => {
-    if (request.query.hide) {
-      return { hideClientButton: true }
+    // Example: Different themes for different users
+    const userAgent = request.headers['user-agent']
+    if (userAgent?.includes('Mobile')) {
+      return { 
+        theme: 'purple',
+        hideClientButton: true  // Hide on mobile
+      }
     }
-    return {}
+    
+    // Example: Environment-based configuration
+    if (process.env.NODE_ENV === 'development') {
+      return {
+        theme: 'alternate',
+        hideDownloadButton: false
+      }
+    }
+    
+    return { theme: 'default' }
   }
+}
+
+// You can also return a Promise or use an async function:
+options: {
+  scalarConfig: async (request) => {
+    // e.g., fetch from a database or remote config service
+    const url = request.query.specUrl || '/openapi.json'
+    return { url }
+  },
 }
 ```
 
@@ -135,6 +179,18 @@ await server.register({
 })
 ```
 
+## Contributing
+
+Contributions are welcome. Please open an issue or pull request.
+
 ## License
 
 MIT
+
+---
+
+## Related Projects
+
+- [Scalar](https://github.com/scalar/scalar) - The beautiful API documentation UI
+- [hapi-swagger](https://github.com/glennjones/hapi-swagger) - Swagger/OpenAPI plugin for Hapi
+- [@hapi/hapi](https://github.com/hapijs/hapi) - The Hapi web framework

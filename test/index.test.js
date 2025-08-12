@@ -234,3 +234,18 @@ test('uses with hapi-swagger has correct swagger endpoint', async (t) => {
     paths: {},
   })
 })
+
+test('normalizes routePrefix trailing slash and serves UI at trimmed path', async (t) => {
+  t.plan(3)
+  const server = Hapi.server()
+  await server.register({
+    plugin: hapiScalar,
+    options: { routePrefix: '/docs/' },
+  })
+
+  const res = await server.inject({ method: 'GET', url: '/docs' })
+
+  t.assert.equal(res.statusCode, 200)
+  t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
+  t.assert.match(res.payload, /<title>Scalar API Reference<\/title>/)
+})
