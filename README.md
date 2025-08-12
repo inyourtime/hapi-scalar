@@ -94,6 +94,8 @@ await server.start()
 console.log('API Documentation available at: http://localhost:3000/docs')
 ```
 
+> Note: When hapi-swagger is registered, hapi-scalar automatically uses /openapi.json if OAS is 'v3.0', otherwise /swagger.json. You don’t need to set scalarConfig.url manually.
+
 ## Configuration Options
 
 ### Plugin Options
@@ -144,6 +146,15 @@ options: {
     return { theme: 'default' }
   }
 }
+
+// You can also return a Promise or use an async function:
+options: {
+  scalarConfig: async (request) => {
+    // e.g., fetch from a database or remote config service
+    const url = request.query.specUrl || '/openapi.json'
+    return { url }
+  },
+}
 ```
 
 ## TypeScript
@@ -170,7 +181,7 @@ await server.register({
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+Contributions are welcome. Please open an issue or pull request.
 
 ## License
 
