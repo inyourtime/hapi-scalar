@@ -1,5 +1,10 @@
 # hapi-scalar
 
+[![CI](https://github.com/inyourtime/hapi-scalar/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/inyourtime/hapi-scalar/actions/workflows/ci.yml)
+[![NPM version](https://img.shields.io/npm/v/hapi-scalar.svg?style=flat)](https://www.npmjs.com/package/hapi-scalar)
+[![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](./LICENSE)
+
 A Hapi plugin that serves [Scalar](https://github.com/scalar/scalar) API documentation UI for your Hapi server. It provides a modern, interactive OpenAPI/Swagger documentation interface that can be used standalone or alongside [hapi-swagger](https://github.com/glennjones/hapi-swagger).
 
 ## Features
