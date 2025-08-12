@@ -235,7 +235,7 @@ test('uses with hapi-swagger has correct swagger endpoint', async (t) => {
   })
 })
 
-test('registers routePrefix with trailing slash and serves same UI', async (t) => {
+test('normalizes routePrefix trailing slash and serves UI at trimmed path', async (t) => {
   t.plan(3)
   const server = Hapi.server()
   await server.register({

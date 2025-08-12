@@ -94,7 +94,7 @@ await server.start()
 console.log('API Documentation available at: http://localhost:3000/docs')
 ```
 
-> Note: When hapi-swagger is registered, hapi-scalar automatically uses /openapi.json if OAS is 'v3.0', otherwise /swagger.json. You don’t need to set scalarConfig.url manually.
+> Note: When hapi-swagger is registered, hapi-scalar automatically uses `/openapi.json` if `OAS` is `'v3.0'`, otherwise `/swagger.json`. You don’t need to set `scalarConfig.url` manually.
 
 ## Configuration Options
 
@@ -102,7 +102,7 @@ console.log('API Documentation available at: http://localhost:3000/docs')
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `routePrefix` | `string` | `'/reference'` | The path where the Scalar documentation UI will be served. Trailing slashes are automatically removed. |
+| `routePrefix` | `string` | `'/reference'` | The path where the Scalar documentation UI will be served. |
 | `scalarConfig` | `object \| function(request) => object \| Promise<object>` | `{}` | Configuration passed to the Scalar UI. Can be a static object or a dynamic function that receives the Hapi request. |
 
 **Example:**
