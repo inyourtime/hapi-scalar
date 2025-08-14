@@ -18,7 +18,7 @@ server.register([
 ])
 
 const hapiScalarOption: hapiScalar.RegisterOptions = {
-  routePrefix: '/reference',
+  routePrefix: '/scalar',
   scalarConfig: {
     url: '/openapi.json',
     hiddenClients: true,
@@ -45,7 +45,7 @@ expect(
 server.register({
   plugin: hapiScalar,
   options: {
-    routePrefix: '/reference',
+    routePrefix: '/scalar',
     scalarConfig: (request) => ({ url: request.query.customUrl || '/default.json' }),
   },
 })
@@ -53,7 +53,7 @@ server.register({
 server.register({
   plugin: hapiScalar,
   options: {
-    routePrefix: '/reference',
+    routePrefix: '/scalar',
     scalarConfig: async (request) => {
       return new Promise((resolve) => {
         setTimeout(() => resolve({ url: request.query.customUrl || '/async.json' }), 100)

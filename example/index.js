@@ -37,7 +37,7 @@ const init = async () => {
 
   server.route({
     method: 'GET',
-    path: '/api/users',
+    path: '/users',
     options: {
       tags: ['api', 'users'],
       description: 'Get all users',
@@ -55,12 +55,17 @@ const init = async () => {
           .description('Array of users'),
       },
     },
-    handler: () => {},
+    handler: () => {
+      return [
+        { id: 1, name: 'John Doe', email: 'john.doe@example.com', age: 30 },
+        { id: 2, name: 'Jane Doe', email: 'jane.doe@example.com', age: 25 },
+      ]
+    },
   })
 
   server.route({
     method: 'POST',
-    path: '/api/users',
+    path: '/users',
     options: {
       tags: ['api', 'users'],
       description: 'Create a new user',
@@ -85,11 +90,22 @@ const init = async () => {
         }),
       },
     },
-    handler: () => {},
+    handler: (request) => {
+      return {
+        success: true,
+        data: {
+          id: 1,
+          name: request.payload.name,
+          email: request.payload.email,
+          age: request.payload.age,
+        },
+      }
+    },
   })
 
   await server.start()
   console.log('Server running on %s', server.info.uri)
+  console.log(`Visit ${server.info.uri}/scalar for Scalar UI`)
 }
 
 process.on('unhandledRejection', (err) => {
