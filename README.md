@@ -9,7 +9,7 @@ A Hapi plugin that serves [Scalar](https://github.com/scalar/scalar) API documen
 
 ## Features
 
-- Serves beautiful Scalar UI at a configurable route (default: `/reference`)
+- Serves beautiful Scalar UI at a configurable route (default: `/scalar`)
 - Auto-detects and integrates with hapi-swagger configurations
 - Supports both static and dynamic configuration
 - TypeScript support
@@ -43,12 +43,12 @@ await server.register({
 })
 
 await server.start()
-console.log('Documentation available at: http://localhost:3000/reference')
+console.log('Documentation available at: http://localhost:3000/scalar')
 ```
 
-Visit [http://localhost:3000/reference](http://localhost:3000/reference) to view the Scalar UI.
+Visit [http://localhost:3000/scalar](http://localhost:3000/scalar) to view the Scalar UI.
 
-### With hapi-swagger (Recommended)
+### With hapi-swagger
 
 When used with hapi-swagger, the plugin automatically detects your OpenAPI/Swagger configuration:
 
@@ -71,7 +71,7 @@ const swaggerOptions = {
     version: '1.0.0',
     description: 'This is my awesome API',
   },
-  OAS: 'v3.0', // Use OpenAPI 3.0 (recommended)
+  OAS: 'v3.0', // Use OpenAPI 3.0
 }
 
 // Register dependencies and hapi-swagger
@@ -107,7 +107,7 @@ console.log('API Documentation available at: http://localhost:3000/docs')
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `routePrefix` | `string` | `'/reference'` | The path where the Scalar documentation UI will be served. |
+| `routePrefix` | `string` | `'/scalar'` | The path where the Scalar documentation UI will be served. |
 | `scalarConfig` | `object \| function(request) => object \| Promise<object>` | `{}` | Configuration passed to the Scalar UI. Can be a static object or a dynamic function that receives the Hapi request. |
 
 **Example:**
@@ -131,24 +131,11 @@ Use a function to provide dynamic configuration based on the request:
 ```js
 options: {
   scalarConfig: (request) => {
-    // Example: Different themes for different users
-    const userAgent = request.headers['user-agent']
-    if (userAgent?.includes('Mobile')) {
-      return { 
-        theme: 'purple',
-        hideClientButton: true  // Hide on mobile
-      }
+    const { theme } = request.query
+    return { 
+      theme: theme || 'default',
+      hideClientButton: true
     }
-    
-    // Example: Environment-based configuration
-    if (process.env.NODE_ENV === 'development') {
-      return {
-        theme: 'alternate',
-        hideDownloadButton: false
-      }
-    }
-    
-    return { theme: 'default' }
   }
 }
 
@@ -171,7 +158,7 @@ import Hapi from '@hapi/hapi'
 import hapiScalar from 'hapi-scalar'
 
 const options: hapiScalar.RegisterOptions = {
-  routePrefix: '/reference',
+  routePrefix: '/scalar',
   scalarConfig: {
     url: '/openapi.json',
     hideClientButton: true,

@@ -6,7 +6,7 @@ declare namespace hapiScalar {
     /**
      * The path that Scalar will be served from.
      *
-     * @default '/reference'
+     * @default '/scalar'
      */
     routePrefix?: `/${string}`
     /**

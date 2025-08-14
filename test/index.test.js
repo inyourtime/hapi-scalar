@@ -40,7 +40,7 @@ test('registers route with default options', async (t) => {
   const server = Hapi.server()
   await server.register({ plugin: hapiScalar, options: {} })
 
-  const res = await server.inject({ method: 'GET', url: '/reference' })
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res.statusCode, 200)
   t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
@@ -68,7 +68,7 @@ test('uses custom scalarConfig object (url)', async (t) => {
     options: { scalarConfig: { url: '/openapi.json' } },
   })
 
-  const res = await server.inject({ method: 'GET', url: '/reference' })
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res.statusCode, 200)
   t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
@@ -84,7 +84,7 @@ test('uses custom scalarConfig object (content)', async (t) => {
     options: { scalarConfig: { content: exampleDocument } },
   })
 
-  const res = await server.inject({ method: 'GET', url: '/reference' })
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res.statusCode, 200)
   t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
@@ -102,8 +102,8 @@ test('uses custom scalarConfig function', async (t) => {
     },
   })
 
-  const res1 = await server.inject({ method: 'GET', url: '/reference?customUrl=/custom.json' })
-  const res2 = await server.inject({ method: 'GET', url: '/reference' })
+  const res1 = await server.inject({ method: 'GET', url: '/scalar?customUrl=/custom.json' })
+  const res2 = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res1.statusCode, 200)
   t.assert.equal(res1.headers['content-type'], 'text/html; charset=utf-8')
@@ -129,8 +129,8 @@ test('uses custom scalarConfig async function', async (t) => {
     },
   })
 
-  const res1 = await server.inject({ method: 'GET', url: '/reference?customUrl=/custom.json' })
-  const res2 = await server.inject({ method: 'GET', url: '/reference' })
+  const res1 = await server.inject({ method: 'GET', url: '/scalar?customUrl=/custom.json' })
+  const res2 = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res1.statusCode, 200)
   t.assert.equal(res1.headers['content-type'], 'text/html; charset=utf-8')
@@ -160,7 +160,7 @@ test('uses with hapi-swagger (swagger v2)', async (t) => {
     { plugin: hapiScalar, options: {} },
   ])
 
-  const res = await server.inject({ method: 'GET', url: '/reference' })
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res.statusCode, 200)
   t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
@@ -188,7 +188,7 @@ test('uses with hapi-swagger (openapi)', async (t) => {
     { plugin: hapiScalar, options: {} },
   ])
 
-  const res = await server.inject({ method: 'GET', url: '/reference' })
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
 
   t.assert.equal(res.statusCode, 200)
   t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
