@@ -9,7 +9,7 @@ A Hapi plugin that serves [Scalar](https://github.com/scalar/scalar) API documen
 
 ## Features
 
-- Serves beautiful Scalar UI at a configurable route (default: `/scalar`)
+- Serves the beautiful Scalar UI at a configurable route (default: `/scalar`)
 - Auto-detects and integrates with hapi-swagger configurations
 - Supports both static and dynamic configuration
 - TypeScript support
@@ -131,9 +131,8 @@ Use a function to provide dynamic configuration based on the request:
 ```js
 options: {
   scalarConfig: (request) => {
-    const { theme } = request.query
     return { 
-      theme: theme || 'default',
+      theme: request.query.theme ?? 'default',
       hideClientButton: true
     }
   }

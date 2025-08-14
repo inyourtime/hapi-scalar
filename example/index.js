@@ -57,8 +57,8 @@ const init = async () => {
     },
     handler: () => {
       return [
-        { id: 1, name: 'John Doe', email: 'mHd8t@example.com', age: 30 },
-        { id: 2, name: 'Jane Doe', email: 'mHd8t@example.com', age: 25 },
+        { id: 1, name: 'John Doe', email: 'john.doe@example.com', age: 30 },
+        { id: 2, name: 'Jane Doe', email: 'jane.doe@example.com', age: 25 },
       ]
     },
   })
@@ -105,7 +105,7 @@ const init = async () => {
 
   await server.start()
   console.log('Server running on %s', server.info.uri)
-  console.log('Visit http://localhost:3000/scalar for Scalar UI')
+  console.log(`Visit ${server.info.uri}/scalar for Scalar UI`)
 }
 
 process.on('unhandledRejection', (err) => {
