@@ -38,7 +38,7 @@
     "url": "https://github.com/inyourtime/hapi-scalar/issues"
   },
   "dependencies": {
-    "@scalar/core": "^0.3.10"
+    "@scalar/core": "^0.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
