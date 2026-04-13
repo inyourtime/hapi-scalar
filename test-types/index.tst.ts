@@ -46,7 +46,11 @@ server.register({
   plugin: hapiScalar,
   options: {
     routePrefix: '/scalar',
-    scalarConfig: (request) => ({ url: request.query.customUrl || '/default.json' }),
+    scalarConfig: (request) => ({
+      url: Array.isArray(request.query.customUrl)
+        ? request.query.customUrl[0]
+        : request.query.customUrl || '/default.json',
+    }),
   },
 })
 
@@ -56,7 +60,15 @@ server.register({
     routePrefix: '/scalar',
     scalarConfig: async (request) => {
       return new Promise((resolve) => {
-        setTimeout(() => resolve({ url: request.query.customUrl || '/async.json' }), 100)
+        setTimeout(
+          () =>
+            resolve({
+              url: Array.isArray(request.query.customUrl)
+                ? request.query.customUrl[0]
+                : request.query.customUrl || '/async.json',
+            }),
+          100,
+        )
       })
     },
   },
