@@ -1,5 +1,5 @@
 import type { Plugin, Request } from '@hapi/hapi'
-import type { HtmlRenderingConfiguration } from '@scalar/core/libs/html-rendering'
+import type { HtmlRenderingConfiguration } from '@scalar/client-side-rendering'
 
 declare namespace hapiScalar {
   export interface RegisterOptions {

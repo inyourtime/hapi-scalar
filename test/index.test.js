@@ -59,6 +59,22 @@ test('registers route with custom routePrefix', async (t) => {
   t.assert.match(res.payload, /<title>Scalar API Reference<\/title>/)
 })
 
+test('uses custom cdn and pageTitle', async (t) => {
+  t.plan(4)
+  const server = Hapi.server()
+  await server.register({
+    plugin: hapiScalar,
+    options: { scalarConfig: { cdn: 'https://cdn.example.com', pageTitle: 'Custom API Docs' } },
+  })
+
+  const res = await server.inject({ method: 'GET', url: '/scalar' })
+
+  t.assert.equal(res.statusCode, 200)
+  t.assert.equal(res.headers['content-type'], 'text/html; charset=utf-8')
+  t.assert.match(res.payload, /<title>Custom API Docs<\/title>/)
+  t.assert.match(res.payload, /<script src="https:\/\/cdn\.example\.com"><\/script>/)
+})
+
 test('uses custom scalarConfig object (url)', async (t) => {
   t.plan(3)
   const server = Hapi.server()
