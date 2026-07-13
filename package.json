@@ -46,7 +46,7 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
     "@inyourtime/shared-configs": "^0.1.1",
-    "@types/node": "^25.0.2",
+    "@types/node": "^26.1.1",
     "c8": "^11.0.0",
     "hapi-swagger": "^17.3.2",
     "joi": "^17.13.3",
