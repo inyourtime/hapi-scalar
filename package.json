@@ -38,7 +38,7 @@
     "url": "https://github.com/inyourtime/hapi-scalar/issues"
   },
   "dependencies": {
-    "@scalar/client-side-rendering": "^0.1.4"
+    "@scalar/client-side-rendering": "^0.3.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
@@ -46,8 +46,8 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
     "@inyourtime/shared-configs": "^0.1.1",
-    "@types/node": "^25.0.2",
-    "c8": "^11.0.0",
+    "@types/node": "^26.1.1",
+    "c8": "^12.0.0",
     "hapi-swagger": "^17.3.2",
     "joi": "^17.13.3",
     "tstyche": "^7.0.0",

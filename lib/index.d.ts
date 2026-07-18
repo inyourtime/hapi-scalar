@@ -25,9 +25,7 @@ declare namespace hapiScalar {
   }
 }
 
-declare const hapiScalar: {
-  plugin: Plugin<hapiScalar.RegisterOptions>
-}
+declare const hapiScalar: Plugin<hapiScalar.RegisterOptions>
 
-export { hapiScalar }
+export { hapiScalar as plugin }
 export default hapiScalar

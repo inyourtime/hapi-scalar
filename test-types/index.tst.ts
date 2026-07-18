@@ -48,7 +48,7 @@ server.register({
     routePrefix: '/scalar',
     scalarConfig: (request) => ({
       url: Array.isArray(request.query.customUrl)
-        ? request.query.customUrl[0]
+        ? request.query.customUrl[0] || '/default.json'
         : request.query.customUrl || '/default.json',
     }),
   },
@@ -64,7 +64,7 @@ server.register({
           () =>
             resolve({
               url: Array.isArray(request.query.customUrl)
-                ? request.query.customUrl[0]
+                ? request.query.customUrl[0] || '/async.json'
                 : request.query.customUrl || '/async.json',
             }),
           100,
