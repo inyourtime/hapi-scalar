@@ -51,7 +51,7 @@
     "hapi-swagger": "^17.3.2",
     "joi": "^17.13.3",
     "tstyche": "^7.0.0",
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.2"
   },
   "files": [
     "lib"
